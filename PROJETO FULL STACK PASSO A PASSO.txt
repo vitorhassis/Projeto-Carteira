@@ -1,0 +1,100 @@
+PROJETO FULL STACK PASSO A PASSO EM SEQUENCIA
+1-CRIANDO PROJETO
+2-CRIANDO A CLASSE
+3-DBCONTEXT
+4-CRIAR O APPDBCONTEXT
+
+
+
+CRIANDO PROJETO
+-fomos no visual studio installer -> selecionamos "ASP.NET e desenvolvimento web" e instalamos;
+-dentro do projeto, estão todos os arquivos da API;
+---------------------
+->Connected Services
+-usado para integrar serviços externos, como API REST, etc;
+---------------
+->Dependências
+-mostra as referencias do projeto;
+------------
+->Properties
+-contem configurações do projeto;
+-launchsettings.json -> configura o modo de execução;
+-------------
+->Controllers
+-onde ficam os controllers da sua API;
+-Por padrão, já vem com WeatherForecastController.cs que eh um exemplo de controller que responde a uma rota;
+------------------
+->appsettings.json
+-arquivo de configuração do seu projeto;
+-aq q configura a connection string do banco (mySQL ou SQL Server), configurações de logging, outros ajustes;
+----------------------
+->CarteiraSimples.http 
+-arquivo de teste de requisições HTTP integrado ao Visual Studio;
+-você pode simular GET, POST direto dali;
+-------------
+->Program.cs
+-arquivo que define como a aplicação inicia;
+--------------------
+->WeatherForecast.cs
+-classe de modelo doe exemplo, relacionada ao WeatherForecastController.cs
+-------------------------------------------------------------------------------------------------------------------
+CRIANDO A CLASSE 
+-Agora, vamos criar a classe que sera usada como modelo (Model) da nossa aplicação;
+-criamos uma pasta chamada "Models". Aqui dentro, vamos criar uma classe chamada Transacao.cs;
+
+ATRIBUTOS
+-os atributos serão ID, Valor, Nome, Data, Descricao, Tipo;
+
+EXEMPLO
+namespace CarteiraSimples.Models
+{
+    public class Transacao
+    {
+        public int Id { get; set; }
+        public double Valor { get; set; }
+        public string Descricao { get; set; }
+        public string Tipo { get; set; }
+        public DateTime Data { get; set; }
+    }
+}
+-basicamente estruturei como a tabela no banco de dados sera;
+-------------------------------------------------------------------------------------------------------------------
+DBCONTEXT (CLASSE BASE) 
+-Classe base que gerencia (vai e volta), que faz a ponte entre o C# e o banco de dados;
+-eh uma classe generica. Voce cria uma classe filha para personalizar o contexto, para dizer exatamente quais classes irao virar tabelas no banco de dados;
+-------------------------------------------------------------------------------------------------------------------
+APPDBCONTEXT (CLASSE HERDADA)
+-Classe filha personalizada da DbContext, criada para representar o seu banco e repassar as configurações para a DbContext fazer o trabalho;
+-vamos criar isso agora, pq já criamos o Modelo dos Dados (Transacao.cs), agora vamos dizer ao EF "Ei, quero que essa classe vire uma tabela chamada Transacoes no banco";
+
+ESTRUTURA
+-crie uma pasta chamada Data;
+-crie um arquivo chamado "AppDbContext.cs";
+
+COMO FAZER
+-trate a sua classe criada como uma classe filha de "DbContext". Ou seja, estamos fazendo com que a nossa classe herde funcionalidades da classe DbContext, q eh a base para mapear e manipular dados no banco;
+
+ESTRUTURA
+using Microsoft.EntityFrameworkCore;
+using CarteiraSimples.Models;
+
+namespace CarteiraSimples.Data
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        public DbSet<Transacao> Transacoes => Set<Transacao>();
+    }
+}
+
+-tenho um construtor. Ele recebe "options", que eh a configuração do banco, como provider, string, etc;
+-ele passa options para DbContext, a classe base, que sabe como usar essas configs para se conectar ao banco;
+
+public DbSet<Transacao> Transacoes => Set<Transacao>() = estou definindo que tera uma tabela chamada Transacoes no banco, baseada na classe Transacao;
+
+RESUMO
+-A classe AppDbContext é uma classe personalizada que herda de DbContext. O construtor dessa classe recebe um objeto chamado DbContextOptions<AppDbContext> OPTIONS, que contém todas as configurações necessárias para a conexão (como o tipo do banco e a string de conexão). Ao passar essas opções para a classe base com : base(options), o EF Core consegue inicializar corretamente a conexão. Dentro dessa classe, você define as tabelas que existirão no banco usando DbSet<T>, e no seu caso, DbSet<Transacao> indica que haverá uma tabela chamada Transacoes, baseada na classe Transacao.cs. Com isso, você poderá realizar operações como salvar, listar, excluir ou editar registros diretamente pelo código, e o EF cuidará da comunicação com o banco.
+
+ANALOGIA
+-Pense no DbContext como uma máquina de lavar. Ele sabe como lavar roupas, mas não sabe quais roupas você vai colocar nem quais botões apertar. A sua classe AppDbContext é como alguém programando a máquina: você diz “lava roupas de algodão com água fria e ciclo leve” (essas são as options), e também informa quais roupas estão indo (as DbSets, que são as tabelas). A máquina (DbContext) então faz o trabalho pesado: se conecta, roda o ciclo e entrega pronto — você só configurou e colocou as peças certas.

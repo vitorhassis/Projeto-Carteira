@@ -1,0 +1,6 @@
+@CarteiraSimples_HostAddress = http://localhost:5208
+
+GET {{CarteiraSimples_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
