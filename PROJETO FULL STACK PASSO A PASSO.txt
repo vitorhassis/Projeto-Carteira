@@ -3,10 +3,22 @@ PROJETO FULL STACK PASSO A PASSO EM SEQUENCIA
 2-CRIANDO A CLASSE
 3-DBCONTEXT
 4-CRIAR O APPDBCONTEXT
+5-CRIAR A CONEXAO NO BANCO DE DADOS
+6-CONFIGURAR O PROGRAM.CS
+7-RESUMO
+8-BANCO DE DADOS CRIADO
+9-PASTA CONTROLLERS/TRANSACOESCONTROLLER.CS
+    ->DEFINIÇÃO DO CONTROLLER
+    ->CONSTRUTOR
 
 
+ENTENDENDO FLUXO DO PROJETO (APPDBCONTEXT.CS - TRANSACOESCONTROLLER.CS)
+    ->USER FAZENDO UMA REQUISIÇÃO
+CONHECIMENTO 
+    ->RELACAO ENTRE DBCONTEXT E EFCORE
 
-CRIANDO PROJETO
+
+1-CRIANDO PROJETO
 -fomos no visual studio installer -> selecionamos "ASP.NET e desenvolvimento web" e instalamos;
 -dentro do projeto, estão todos os arquivos da API;
 ---------------------
@@ -38,7 +50,7 @@ CRIANDO PROJETO
 ->WeatherForecast.cs
 -classe de modelo doe exemplo, relacionada ao WeatherForecastController.cs
 -------------------------------------------------------------------------------------------------------------------
-CRIANDO A CLASSE 
+2-CRIANDO A CLASSE 
 -Agora, vamos criar a classe que sera usada como modelo (Model) da nossa aplicação;
 -criamos uma pasta chamada "Models". Aqui dentro, vamos criar uma classe chamada Transacao.cs;
 
@@ -58,14 +70,14 @@ namespace CarteiraSimples.Models
     }
 }
 -basicamente estruturei como a tabela no banco de dados sera;
--------------------------------------------------------------------------------------------------------------------
-DBCONTEXT (CLASSE BASE) 
+-------------------------------------------------------------------------------------------------------------------3-DBCONTEXT
 -Classe base que gerencia (vai e volta), que faz a ponte entre o C# e o banco de dados;
 -eh uma classe generica. Voce cria uma classe filha para personalizar o contexto, para dizer exatamente quais classes irao virar tabelas no banco de dados;
 -------------------------------------------------------------------------------------------------------------------
-APPDBCONTEXT (CLASSE HERDADA)
--Classe filha personalizada da DbContext, criada para representar o seu banco e repassar as configurações para a DbContext fazer o trabalho;
--vamos criar isso agora, pq já criamos o Modelo dos Dados (Transacao.cs), agora vamos dizer ao EF "Ei, quero que essa classe vire uma tabela chamada Transacoes no banco";
+4-CRIAR O APPDBCONTEXT (CLASSE HERDADA)
+-PONTE REAL COM O BANCO. ELE RECEBE UMA ORDEM DO 'TRANSACOES.CONTROLLER' SOBRE OQ ELE VAI FAZER (CRUD) NO BANCO*
+-Classe filha personalizada da DbContext;
+-Ela atua como uma sessão com o banco de dados. Tudo o que fizermos no C# para consultar, add, atualizar, deletar dados passará por uma instancia dessa classe;
 
 ESTRUTURA
 -crie uma pasta chamada Data;
@@ -74,7 +86,7 @@ ESTRUTURA
 COMO FAZER
 -trate a sua classe criada como uma classe filha de "DbContext". Ou seja, estamos fazendo com que a nossa classe herde funcionalidades da classe DbContext, q eh a base para mapear e manipular dados no banco;
 
-ESTRUTURA
+ESTRUTURA/ENTENDENDO O CODIGO
 using Microsoft.EntityFrameworkCore;
 using CarteiraSimples.Models;
 
@@ -87,14 +99,143 @@ namespace CarteiraSimples.Data
         public DbSet<Transacao> Transacoes => Set<Transacao>();
     }
 }
+-A classe tem um construtor, que sempre que essa classe for instanciada será passada para ela um parâmetro, o options, que possui as configurações do banco de dados;
+-qm cria e entrega esse 'options' eh o sistema do ASP.NET, através de um conceito chamado 'injeção de dependência';
+-esse 'options' eh passado para a classe base, a DbContext;
+-a classe base, o DbContext que faz parte do EF Core, eh a maquina que gerencia a comunicação com o banco de dados;
+-a classe base le 'options' para saber com qual banco estamos lidando, e outras configurações desse banco;
 
--tenho um construtor. Ele recebe "options", que eh a configuração do banco, como provider, string, etc;
--ele passa options para DbContext, a classe base, que sabe como usar essas configs para se conectar ao banco;
 
-public DbSet<Transacao> Transacoes => Set<Transacao>() = estou definindo que tera uma tabela chamada Transacoes no banco, baseada na classe Transacao;
+public DbSet<Transacao> Transacoes => Set<Transacao>()
+-<Transacao> eh o nome da classe no C#;
+-Transacoes = Representa a tabela real no banco de dados;
+-o DbSet eh uma ferramenta do EFCore que transforma sua classe C# <Transacao> em algo que pode ser armazenado e consultado no banco de dados;
+-Set<Transacao>() = eh oq permite usar os comandos do EFCore, como .Add(), .Remove(), etc. Ele conecta o seu código a tabela, e fornece as funções de CRUD;
+-------------------------------------------------------------------------------------------------------------------
+5-CONEXAO COM O BANCO DE DADOS
+->PRIMEIRO PASSO
+-ter o MySQL rodando (verifique se o XAMPP esta ativo);
+-abre o workbench e cria uma nova conexão;
 
-RESUMO
--A classe AppDbContext é uma classe personalizada que herda de DbContext. O construtor dessa classe recebe um objeto chamado DbContextOptions<AppDbContext> OPTIONS, que contém todas as configurações necessárias para a conexão (como o tipo do banco e a string de conexão). Ao passar essas opções para a classe base com : base(options), o EF Core consegue inicializar corretamente a conexão. Dentro dessa classe, você define as tabelas que existirão no banco usando DbSet<T>, e no seu caso, DbSet<Transacao> indica que haverá uma tabela chamada Transacoes, baseada na classe Transacao.cs. Com isso, você poderá realizar operações como salvar, listar, excluir ou editar registros diretamente pelo código, e o EF cuidará da comunicação com o banco.
+->APPSETTINGS.JSON
+-arquivo de config do projeto ASP.NET Core;
+-ele serve para guardar endereço do banco de dados, API externas, etc;
+-vamos fazer algumas mudanças aqui. No caso, add o "ConnectionStrings", que são as informações que dizem ao projeto, como se conectar ao banco de dados;
 
-ANALOGIA
--Pense no DbContext como uma máquina de lavar. Ele sabe como lavar roupas, mas não sabe quais roupas você vai colocar nem quais botões apertar. A sua classe AppDbContext é como alguém programando a máquina: você diz “lava roupas de algodão com água fria e ciclo leve” (essas são as options), e também informa quais roupas estão indo (as DbSets, que são as tabelas). A máquina (DbContext) então faz o trabalho pesado: se conecta, roda o ciclo e entrega pronto — você só configurou e colocou as peças certas.
+
+VAI ESTAR ASSIM:
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+
+ADICIONANDO ISSO:
+'CONNECTIONSTRINGS' = onde o ASP.NET busca as configurações de conexão do banco;
+'DEFAULTCONNECTION: "server=localhost;database=carteiraSimples_DB;user=root;password" = 
+-DEFAULTCONNECTION = nome que usamos no Program.cs para injetar o AppDbContext;
+-"server = localhost" = diz pro EF Core usar o MySQL local do XAMPP;
+-"database=carteiraSimples_DB" = nome do banco criado no workbench;
+"user=root;password=" = credenciais do MySQL;
+
+FICARA ASSIM:
+{
+  *"ConnectionStrings": {
+    *"DefaultConnection": "server=localhost;database=carteiraSimples_DB;user=root;password="
+  },
+
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+
+  "AllowedHosts": "*"
+-------------------------------------------------------------------------------------------------------------------
+6-CONFIGURANDO O PROGRAM.CS
+-No `Program.cs`, está o esqueleto básico de uma API, ou seja, a configuração mínima necessária para rodar uma aplicação ASP.NET Core. Nele, registramos uma instância da classe criada, `AppDbContext`. Como o construtor dessa classe exige o parâmetro `options`, usamos ele para passar as configurações do banco de dados que definimos no `appsettings.json` (as `ConnectionStrings`). Assim, essas configurações são enviadas para a classe base `DbContext`, que faz toda a ponte entre o C# e o banco de dados;
+-Dessa forma, estaremos ativando o banco da API;
+-------------------------------------------------------------------------------------------------------------------
+7-CRIANDO O ARQUIVO APPDBCONTEXTFACTORY.CS
+-Basicamente, o AppDbContextFactory serve para quando o Entity Framework precisa de uma instância do AppDbContext (por exemplo, pra criar tabelas ou aplicar migrações), mas a aplicação não está em execução. Nesse caso, o código da factory permite que o EF crie essa instância manualmente, sem precisar que você esteja rodando o projeto (dotnet run);
+-------------------------------------------------------------------------------------------------------------------
+8-BANCO DE DADOS CRIADO
+-Só iniciar o xampp e abrir o Workbench que vai estar lá;
+-------------------------------------------------------------------------------------------------------------------
+9-PASTA CONTROLLERS/TRANSACOESCONTROLLER.CS
+-O 'TRANSACOESCONTROLLER' INFORMA PRO 'APPDBCONTEXT' A OPERAÇÃO QUE ELE VAI TER Q FAZER*
+-vamos criar a pasta 'Controllers' e o arquivo 'TransacoesController.cs'. Esse 'Controller' vai expor os 'enpoints' da API;
+-o ENDPOINT é um endereço que permite acessar ou alterar dados do banco, de forma controlada e segura;
+-eu tenho tipo de ENDPOINTS. GET (busca dados, sem alterar nada) POST (cria um novo registro no banco), PUT (atualiza um registro existente) DELETE (remove um registro do banco);
+-cada tipo de ENDPOINT representa um tipo de operação que a API consegue fazer sobre os dados do banco;
+-no caso, o back-end que faz as operações de verdade. Ele é quem executa os comandos no banco;
+-------------------------
+->DEFINIÇÃO DO CONTROLLER
+-aqui, estamos configurando e avisando pro ASP.NET CORE que essa classe eh um controller de API, e tudo oq estiver dentro dela (métodos) vai responder requisições HTTP para /api/transações;
+
+namespace CarteiraSimples.Controllers
+{
+    [ApiController] 
+    [Route ("api/[controller]")]
+    
+    public class TransacoesController : ControllerBase {
+    }
+    
+}
+-[ApiController] = diz pro ASP.NET que essa classe eh um controler da API;
+-[Route ("api/[controller]")] = //define a rota base dos endpoints ([controler] eh substituido pelo nome da classe, sem o 'Controller'. Ou seja, resultado final = /api/transações;
+-public class TransacoesController : ControllerBase = cria a classe base do controller, herda recursos do ASP.NET pra responder requisicoes HTTP;
+------------
+->CONSTRUTOR
+-so pra lembrar, o construtor eh um método especial que eh executado EXATAMENTE quando a classe eh criada. Ela serve para inicializar atributos, preparar o objeto para funcionar;
+-nesse caso, o ASP.NET CORE quando recebe uma requisição na rota /api/transações, precisa criar uma INSTANCIA dessa classe, para tratar essa requisição. Para isso, ele olha para o construtor e ve oq essa classe precisa. No caso:
+
+private readonly AppDbContext _context;
+public TransacoesController(AppDbContext context)
+{
+    _context = context; 
+}
+-primeiro, cria-se uma variável privata e IMUTÁVEL que guarda a conexão com o banco, protegendo-a de alterações;
+-o construtor diz ao ASP.NET Core que, toda vez que for feita uma requisição API (como uma operação de CRUD), essa classe precisa receber um objeto do tipo AppDbContext, que representa a conexão e o canal de comunicação com o banco de dados= - e eh ele quem executa de fato as ações de CRUD. O 'controller'. apenas usa instancia do 'AppDbContext', guardada em '_contexto', para solicitar que tais operações sejam realizadas;
+
+-Agora, vamos criar os métodos que são o coração do controller. Eles são o que permitem o front falar com o banco;
+----------------
+->ENDPOINT - GET 
+-o método GET, vai buscar todas as transações no banco e devolver em formato JSON para quem chamou a API;
+
+[HttpGet]
+public async Task<ActionResult<IEnumerable<Transacao>>> GetTransacoes()
+{
+    return await _context.Transacoes.ToListAsync();
+}
+
+-[HttpGet] = diz ao ASP.NET que esse método responde a requisições HTTP GET (consulta de dados);
+
+*public async Task<ActionResult<IEnumerable<Transacao>>> GetTransacoes()*
+ -public async = declaramos como 'async', ou seja, apesar dele precisar de uma resposta do banco, não é pra travar a aplicação;
+-IEnumerable<Transacao> = significa uma "coleção de transações", ou seja, varias linhas da tabela 'Transacoes', msm coisa que retornar uma lista de objetos 'Transacao';
+-ActionResult<IEnumerable<Transacao>> = "Vou devolver uma resposta HTTP com algum conteúdo", mas ele também permite devolver status de erros. Ou seja, ele diz "Essa ação pode retornar uma lista de transações ou uma mensagem de erro HTTP";
+-Task<...> = o método usa 'async', oq significa que ele roda de forma assíncrona. Todo método 'async' precisa retornar uma Task que representa uma operação que vai terminar no futuro. 'Task' eh uma promessa de que o resultado virá depois que o banco responder;
+
+*return await _context.Transacoes.ToListAsync()*
+-.ToListAsync() = manda o EF Core buscar todos os registros dessa tabela e retornar como uma lista;
+-.Transacoes.ToListAsync() = representa a tabela 'Transacoes' no banco;
+-_contexto.Transacoes.ToListAsync() = é a instancia do AppDbContext, a ponta com o banco de dados;
+-------------------------------------------------------------------------------------------------------------------
+ENTENDENDO FLUXO DO PROJETO (APPDBCONTEXT.CS - TRANSACOESCONTROLLER.CS)
+->USER FAZENDO UMA REQUISIÇÃO
+-usuário quer ver todas as transações. O navegador manda GET/api/transações;
+-o ASP.NET pensa "Essa rota pertence ao controller TransacoesController";
+-o ASP.NET cria o controller, ele precisa de um TransacoesController para processar essa rota. Mas ele ve o construtor, e percebe que para isso, ele precisa criar antes um AppDbContext (atua como uma ponte entre o código e o banco de dados);
+-como no program.cs configuramos, o ASP.NET já sabe como criar o 'AppDbContext'. Sendo assim, ele já instancia o objeto, conecta com o banco, e deixa tudo pronto para uso;
+-o ASP.NET injeta '_context' no controller, que guarda a instancia do AppDbContext;
+-Quem faz de fato as mudanças no banco, eh o AppDbContext. O 'Controller' apenas manda ele fazer;
+-------------------------------------------------------------------------------------------------------------------
+CONHECIMENTO 
+->RELACAO ENTRE DBCONTEXT E EFCORE
+-O Entity Framework Core (EF Core) é um framework que conecta o C# ao banco de dados sem precisar escrever SQL. O DbContext é a classe principal do EF Core e faz essa ponte, transformando os comandos do C# em ações reais no banco, como inserir, buscar ou excluir dados.
