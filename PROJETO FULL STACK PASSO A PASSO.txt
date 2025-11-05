@@ -206,7 +206,7 @@ public TransacoesController(AppDbContext context)
 -Agora, vamos criar os métodos que são o coração do controller. Eles são o que permitem o front falar com o banco;
 ----------------
 ->ENDPOINT - GET 
--o método GET, vai buscar todas as transações no banco e devolver em formato JSON para quem chamou a API;
+-o método GET, vai buscar TODAS as transações no banco e devolver em formato JSON para quem chamou a API;
 
 [HttpGet]
 public async Task<ActionResult<IEnumerable<Transacao>>> GetTransacoes()
@@ -225,7 +225,146 @@ public async Task<ActionResult<IEnumerable<Transacao>>> GetTransacoes()
 *return await _context.Transacoes.ToListAsync()*
 -.ToListAsync() = manda o EF Core buscar todos os registros dessa tabela e retornar como uma lista;
 -.Transacoes.ToListAsync() = representa a tabela 'Transacoes' no banco;
--_contexto.Transacoes.ToListAsync() = é a instancia do AppDbContext, a ponta com o banco de dados;
+-_context.Transacoes.ToListAsync() = é a instancia do AppDbContext, a ponta com o banco de dados;
+------------------------
+->ENDPOINT - GET PELO ID
+-aqui, a função retorna apenas uma transação específica pelo seu ID;
+-usa o 'FindAsync(id)' para procurar uma linha com esse ID no banco de dados;
+
+[HttpGet("{id}")]
+public async Task<ActionResult<Transacao>> GetTransacao(int id)
+{
+    var transacao = await _context.Transacoes.FindAsync(id);
+
+    if (transacao == null)
+    {
+        return NotFound();
+    }
+
+    return transacao;
+}
+-[HttpGet("{id}")] = atributo de rota. "Quando alguém fizer um GET com um parâmetro na URL, chame esse método";
+*public async Task<ActionResult<Transacao>> GetTransacao(int id)*
+-public pq eh um método publico, async pq eh um método assíncrono, ou seja, ele não bloqueia a execução enquanto acessa o banco de dados, e o Task<ActionResult<Transacao>> é o tipo de retorno, 'Task' significa que o método retorna uma tarefa assíncrona, 'ActionResult<Transacao>' significa que o resultado da tarefa vai ser uma resposta HTTP, contendo um objeto de Transação se tudo der certo, ou um status HTTP se algo der errado. 'GetTransacao' eh o nome da função, e o 'int id' eh o parâmetro recebido da URL;
+
+*var transacao = await _context.Transacoes.FindAsync(id)*
+-a linha acima busca no banco de dados, de fome assíncrona, uma transação com o ID informado, e guarda o resultado (se existir) na var 'transacao';
+
+-dps so fazemos um if para verificar oq foi retornado para a var 'transacao'. Se for nulo, trata o erro, se não, ou seja, retornou um ID do banco, retorne ele;
+-------------------
+->ENDPOINT - POST -
+
+[HttpPost]
+public async Task<ActionResult<Transacao>> PostTransacao(Transacao transacao)
+{
+    _context.Transacoes.Add(transacao);      
+    await _context.SaveChangesAsync();       
+
+    return CreatedAtAction(nameof(GetTransacao), new { id = transacao.Id }, transacao);
+}
+
+*public async Task<ActionResult<Transacao>> PostTransacao(Transacao transacao)*
+-função que né, vai ser pública, assíncrona porque espera uma requisição do banco de dados, mas não quer que trava o sistema por conta disso, task porque retorna uma tarefa assíncrona, e 'ActionResult' porque o resultado vai ser uma resposta HTTP, contendo um objeto de 'Transacao' ou um erro esperado;
+-O nome da função eh 'PostTransacao', e ela recebe como parâmetro um objeto de Transação, chamado 'transacao';
+
+*_context.Transacoes.Add(transacao)*
+-'context' eh um objeto do tipo 'AppDbContext' que representa a ponte com o banco de dados. o '.Transacoes' representa a tabela dentro do banco. Estou basicamente adicionando na tabela, o que é passado como parâmetro da função, ou seja, um objeto 'transacao', adicionando uma nova linha no banco de dados. Mas aqui ainda ele não grava de verdade, ele só PREPARA o ambiente para ser salvo;
+
+*await _context.SaveChangesAsync()*
+-aqui sim, o EFCore envia o comando 'INSER INTO' pro banco MySQL;
+
+*return CreatedAtAction(nameof(GetTransacao), new { id = transacao.Id }, transacao)*
+-Essa linha retorna a resposta 201 Created, indicando sucesso na criação, informando onde o novo item pode ser encontrado (/api/transacoes/{id}) e enviando o objeto completo de volta no corpo da resposta;
+
+*OBS*
+-quando uso o .Add, o EFCore ja marca automaticamente o estado do objeto como 'Added'. O metodo usado (.Add) ja diz isso para ele. Ele ja sabe que vai ter que gerar um INSERT (no PUT, eu preciso informar pro EFCore que ele vai precisar dar um UPDATE quando for salvo, alterando o status da entidade para '.Modified');
+------------------------------------------
+->PUT - ATUALIZAR UMA TRANSACAO EXISTENTE - 
+
+[HttpPut("{id}")]
+public async Task<IActionResult> PutTransacao(int id, Transacao transacao)
+{
+    if (id != transacao.Id)
+    {
+        return BadRequest(); // se o id da URL for diferente do objeto recebido
+    }
+
+    _context.Entry(transacao).State = EntityState.Modified; // marca o objeto como alterado
+
+    try
+    {
+        await _context.SaveChangesAsync(); // salva as mudanças no banco
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+        if (!_context.Transacoes.Any(e => e.Id == id))
+        {
+            return NotFound(); // se o id não existe no banco
+        }
+        else
+        {
+            throw;
+        }
+    }
+
+    return NoContent(); //"A atualização foi feita com sucesso, mas não tem nada pra retornar no corpo da resposta"
+}
+
+-[HttpPut("{id}")] = Indica que esse método responde a requisições PUT, com um parâmetro na URL (id);
+
+*public async Task<IActionResult> PutTransacao(int id, Transacao transacao)*
+-'PutTransacao' eh o nome do método q eh assíncrono, por isso usamos o 'await' dentro dele, e pq o tipo do retorno, eh uma tarefa, que eh uma resposta HTTP genérica (<IActionResult>) que pode ser qualquer coisa, como 'ok()', 'NotFound()', etc;
+-esse método recebe dois parâmetros. No caso o ID da transação que queremos atualizar, e um objeto 'transacao' de Transação que representa os novos dados;
+
+*if (id != transacao.Id)
+    {
+        return BadRequest(); // se o id da URL for diferente do objeto recebido
+    }*
+-esse if, eh uma verificação pra garantir que o registro que queremos atualizar, eh o mesmo que estamos enviando no JSON, para que por exemplo, voce informa o ID 5 (quero atualizar ele) mas esta enviando os dados do item 8, o que eh incoerente. Se for diferente, ele retorna o 'BadRequest()' = retorna erro 400, que indica um erro na requisição;
+
+ *_context.Entry(transacao).State = EntityState.Modified*
+-'_context.Entry(transacao).State' = Significa que eu estou entrando (.Entry) no 'context' (representa a conexão com o banco), e quero acessar o estado daquela entidade. Quero definir o estado para '.Modified', ou seja, quero q essa entidade tenha como status, modificado. Isso indica que, quando eu mandar salvar (SaveChangeAsync()), o EFCore vai gerar um UPDATE e atualizar o registro que já existe no banco com o mesmo ID;
+
+*try
+{
+    await _context.SaveChangesAsync(); 
+}
+catch (DbUpdateConcurrencyException)
+{
+    if (!_context.Transacoes.Any(e => e.Id == id))
+    {
+        return NotFound(); // se o id não existe no banco
+    }
+    else //"se o erro não for pq o ID não existe, não sei o motivo e joga um erro genérico"
+    {
+        throw; 
+    }
+}*
+-faco um try catch (try-catch eh sempre usado para evitar que a aplicação quebre se der erro ao salvar). No try, ele TENTA salvar as alterações no banco (executar o UPDATE), eo catch trata, num bloco de codigo, algum erro. Tipo se o registro que voce tentou atualizar nao existe no banco (if(!_context.Transacoes.Any(e => e.Id ==id) no caso '_context.Transacoes' eh a tabela Transacoes no banco, '.Any(...)' eh um metodo que retorna TRUE se existe pelo menos um registro que atenda a condicao. e o 'e => e.Id == id' eh uma expressao lambda que diz para procurar uma transacao, cujo ID seja igual ao ID recebido no parametro)), retornando 'NotFound()' = ID nao encontrado;
+----------------------------------------
+->DELETE (remove uma transacao do banco)
+
+// DELETE: api/transacoes/5
+[HttpDelete("{id}")]
+public async Task<IActionResult> DeleteTransacao(int id)
+{
+    var transacao = await _context.Transacoes.FindAsync(id);
+    if (transacao == null)
+    {
+        return NotFound(); // 404 se o ID não existir
+    }
+
+    _context.Transacoes.Remove(transacao); // marca o objeto pra exclusão
+    await _context.SaveChangesAsync();     // executa o DELETE no banco
+
+    return NoContent(); // 204 - exclusão feita com sucesso
+}
+
+*var transacao = await _context.Transacoes.FindAsync(id)* = estou buscando de forma assincrona, no banco de dados, (via _context q eh a conexao com ele), dentro da tabela 'Transacoes' o registro cujo o ID seja igual ao valor passado como parametro. O resultado eh armazenado na variavel 'transacao'o ID passado como parametro na tabela 'Transacoes' na conexao com o banco de dados (_context) e armazenando o retorno disso na variavel 'transacao';
+
+-o if, verifica se a transacao eh nulo, ou seja, o ID nao existe (NotFound()). Se a transacao existir, (continua o codigo ali abaixo), eu marco esse objeto 'transacao' como "deve ser excluido" da tabela 'Transacoes', atraves da conexao '_context' (que faz a ponte com o banco). Quando tu chama o .Remove() ele muda o estado do objeto para ".Deleted", ou seja, "esse objeto representa um registro existente e que deve ser deletado assim que eu salvar". Por isso sempre, vc faz o 'await _context.SaveChangesAsync()', que eh pra ele executar salvar e executar o DELETE (nesse caso) no banco;
+
+
 -------------------------------------------------------------------------------------------------------------------
 ENTENDENDO FLUXO DO PROJETO (APPDBCONTEXT.CS - TRANSACOESCONTROLLER.CS)
 ->USER FAZENDO UMA REQUISIÇÃO

@@ -25,5 +25,83 @@ namespace CarteiraSimples.Controllers
             return await _context.Transacoes.ToListAsync();
         }
 
+        // GET: api/transacoes/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Transacao>> GetTransacao(int id)
+        {
+            var transacao = await _context.Transacoes.FindAsync(id);
+
+            if (transacao == null)
+            {
+                return NotFound();
+            }
+
+            return transacao;
+        }
+
+        // POST: api/transacoes
+        [HttpPost]
+        public async Task<ActionResult<Transacao>> PostTransacao(Transacao transacao)
+        {
+            _context.Transacoes.Add(transacao);      // adiciona o objeto recebido à tabela
+            await _context.SaveChangesAsync();       // salva as alterações no banco
+
+            // retorna a resposta HTTP 201 (Created) com a rota e o objeto criado
+            return CreatedAtAction(nameof(GetTransacao), new { id = transacao.Id }, transacao);
+        }
+
+
+        // PUT: api/transacoes/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutTransacao(int id, Transacao transacao)
+        {
+            if (id != transacao.Id)
+            {
+                return BadRequest(); // se o id da URL for diferente do objeto recebido
+            }
+
+            _context.Entry(transacao).State = EntityState.Modified; // marca o objeto como alterado
+
+            try
+            {
+                await _context.SaveChangesAsync(); // salva as mudanças no banco
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Transacoes.Any(e => e.Id == id))
+                {
+                    return NotFound(); // se o id não existe no banco
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent(); // retorna 204 (sem conteúdo), indicando sucesso na atualização
+        }
+
+        // DELETE: api/transacoes/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTransacao(int id)
+        {
+            var transacao = await _context.Transacoes.FindAsync(id);
+            if (transacao == null)
+            {
+                return NotFound(); // 404 se o ID não existir
+            }
+
+            _context.Transacoes.Remove(transacao); // marca o objeto pra exclusão
+            await _context.SaveChangesAsync();     // executa o DELETE no banco
+
+            return NoContent(); // 204 - exclusão feita com sucesso
+        }
+
+
+
+
+
+
+
     }
 }
