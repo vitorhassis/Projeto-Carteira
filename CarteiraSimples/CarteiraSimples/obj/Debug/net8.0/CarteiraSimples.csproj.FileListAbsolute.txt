@@ -135,3 +135,4 @@ C:\Users\vh\Documents\GitHub\Projeto-Carteira\CarteiraSimples\CarteiraSimples\ob
 C:\Users\vh\Documents\GitHub\Projeto-Carteira\CarteiraSimples\CarteiraSimples\obj\Debug\net8.0\CarteiraSimples.pdb
 C:\Users\vh\Documents\GitHub\Projeto-Carteira\CarteiraSimples\CarteiraSimples\obj\Debug\net8.0\CarteiraSimples.genruntimeconfig.cache
 C:\Users\vh\Documents\GitHub\Projeto-Carteira\CarteiraSimples\CarteiraSimples\obj\Debug\net8.0\ref\CarteiraSimples.dll
+C:\Users\vh\Documents\GitHub\Projeto-Carteira\CarteiraSimples\CarteiraSimples\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

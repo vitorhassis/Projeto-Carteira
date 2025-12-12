@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CarteiraSimples")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cd91bb2c2a01ad1c8b9eb5b003c21d3a53c2126")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+68416a7121d6ec751c49475c5311d6b0478c8350")]
 [assembly: System.Reflection.AssemblyProductAttribute("CarteiraSimples")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CarteiraSimples")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

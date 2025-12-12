@@ -6,16 +6,20 @@ using Microsoft.EntityFrameworkCore; // permite usar funções do EF
 //tem toda a explicacao no material
 namespace CarteiraSimples.Controllers
 {
+    //caracterizamos a classe como um controller da API
     [ApiController] 
-    [Route("api/[controller]")] 
-    public class TransacoesController : ControllerBase
-    {
-        private readonly AppDbContext _context; // variável privada para guardar o objeto AppDbContext
+    [Route("api/[controller]")]
 
-        // o ASP.NET cria automaticamente uma instância de AppDbContext e injeta aqui quando o controller é usado
+    //a classe criada herda de ControllerBase, que eh uma classe do ASP.NET que ja posui tudo que um controller precisa, como métodos, etc
+    public class TransacoesController : ControllerBase 
+    {
+        //estamos guardando uma ponte de acesso com o banco (private - so pode ser usado dentro do controller - readonly - so pode receber valor no construtor)
+        private readonly AppDbContext _context;
+
+        //qnd eu crio um controller, eu preciso passar uma conexao com o banco ativo, para ele ter a ponte com o banco. Agora, essa classe pode fazer consultar ao banco usando _context.Transacoes
         public TransacoesController(AppDbContext context)
         {
-            _context = context; // guarda essa instância para ser usada dentro das funções
+            _context = context; 
         }
 
         // GET: api/transacoes
@@ -60,7 +64,7 @@ namespace CarteiraSimples.Controllers
                 return BadRequest(); // se o id da URL for diferente do objeto recebido
             }
 
-            _context.Entry(transacao).State = EntityState.Modified; // marca o objeto como alterado
+            _context.Entry(transacao).State = EntityState.Modified; // atualizo o status do objeto novo como modified, indicando que quando eu salvar, ele vai dar um UPDATE na entidade (objeto do banco) que possui o id passado
 
             try
             {
@@ -96,12 +100,5 @@ namespace CarteiraSimples.Controllers
 
             return NoContent(); // 204 - exclusão feita com sucesso
         }
-
-
-
-
-
-
-
     }
 }

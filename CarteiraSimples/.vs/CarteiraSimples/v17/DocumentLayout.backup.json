@@ -3,28 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\models\\transacao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\models\\transacao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\controllers\\transacoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\controllers\\transacoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\data\\appdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\data\\appdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\controllers\\transacoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\controllers\\transacoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|c:\\users\\vh\\documents\\github\\projeto-carteira\\carteirasimples\\carteirasimples\\models\\transacao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C62CCD0D-DA0A-4DE5-BDDD-C389481D07E4}|CarteiraSimples\\CarteiraSimples.csproj|solutionrelative:carteirasimples\\models\\transacao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,8 +30,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "CarteiraSimples\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "CarteiraSimples\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T03:13:26.59Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -44,38 +54,27 @@
               "RelativeDocumentMoniker": "CarteiraSimples\\Controllers\\TransacoesController.cs",
               "ToolTip": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Controllers\\TransacoesController.cs",
               "RelativeToolTip": "CarteiraSimples\\Controllers\\TransacoesController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABsAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAADUAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-02T20:00:24.647Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AppDbContextFactory.cs",
-              "DocumentMoniker": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Data\\AppDbContextFactory.cs",
-              "RelativeDocumentMoniker": "CarteiraSimples\\Data\\AppDbContextFactory.cs",
-              "ToolTip": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Data\\AppDbContextFactory.cs",
-              "RelativeToolTip": "CarteiraSimples\\Data\\AppDbContextFactory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T17:39:20.948Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Program.cs",
               "RelativeDocumentMoniker": "CarteiraSimples\\Program.cs",
               "ToolTip": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Program.cs",
               "RelativeToolTip": "CarteiraSimples\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T15:53:55.114Z"
+              "WhenOpened": "2025-10-30T15:53:55.114Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\appsettings.json",
               "RelativeDocumentMoniker": "CarteiraSimples\\appsettings.json",
@@ -83,24 +82,12 @@
               "RelativeToolTip": "CarteiraSimples\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-30T15:52:23.29Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "CarteiraSimples\\Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "CarteiraSimples\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAZAQAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-30T03:13:26.59Z",
+              "WhenOpened": "2025-10-30T15:52:23.29Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Transacao.cs",
               "DocumentMoniker": "C:\\Users\\vh\\Documents\\GitHub\\Projeto-Carteira\\CarteiraSimples\\CarteiraSimples\\Models\\Transacao.cs",
               "RelativeDocumentMoniker": "CarteiraSimples\\Models\\Transacao.cs",

@@ -11,7 +11,7 @@ namespace CarteiraSimples.Data
         {
             
         }
-        public DbSet<Transacao> Transacoes => Set<Transacao>();
+        public DbSet<Transacao> Transacoes => Set<Transacao>(); //"Existe uma tabela no banco chamada Transacoes que corresponde a classe Transacao"
     }
 
 }

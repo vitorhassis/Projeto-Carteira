@@ -10,7 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //-----------------------------------------------------------------------------------
-//ativando o banco na API.
+
+//"Toda vez que alguem pedir um AppDbContext, ou seja, precisar de uma requisição, crie um objeto de AppDbContext usando a connection string do MySQL (configuramos no appsettings.json)
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseMySql(
             builder.Configuration.GetConnectionString("DefaultConnection"),
